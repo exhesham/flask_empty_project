@@ -30,12 +30,32 @@ from flask import make_response
 from flask import render_template
 from flask import send_from_directory
 import ConfigParser
+import sys
+import argparse
+import logging
+
+# Logs
+logging.basicConfig(filename='service.log',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p',
+                    level=logging.DEBUG)
+
+logger = logging.getLogger('my_service')
+logger.addHandler(logging.StreamHandler(sys.stdout))
+
+# Load Config File
+config = ConfigParser.ConfigParser()
+config.readfp(open('config.ini'))
+
+# Initialize command line
+parser = argparse.ArgumentParser(description='my flags')
+parser.add_argument('--version', help='',default='', nargs=1, required=True)
+parser.add_argument('--clean', help='', required=False, action="store_true")
 
 app = Flask(__name__)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-config = ConfigParser.ConfigParser()
-config.readfp(open('config.ini'))
 
 
 @app.errorhandler(500)
