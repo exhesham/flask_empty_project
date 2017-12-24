@@ -50,7 +50,7 @@ config.readfp(open('config.ini'))
 
 # Initialize command line
 parser = argparse.ArgumentParser(description='my flags')
-parser.add_argument('--version', help='',default='', nargs=1, required=True)
+parser.add_argument('--version', action='version', version='1.0')
 parser.add_argument('--clean', help='', required=False, action="store_true")
 args = parser.parse_known_args()    # Parse the args input
 app = Flask(__name__)
