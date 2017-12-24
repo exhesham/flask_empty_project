@@ -52,7 +52,7 @@ config.readfp(open('config.ini'))
 parser = argparse.ArgumentParser(description='my flags')
 parser.add_argument('--version', action='version', version='1.0')
 parser.add_argument('--clean',dest='should_clean', help='', required=False, action="store_true")
-parser.add_argument('--default-page',action='stor',dest='default_page', help='the default page to view ',default='index.html', nargs=1, required=False)
+parser.add_argument('--default-page',action='stor',dest='default_page', help='the default page to view ',default=['index.html'], nargs=1, required=False)
 args = parser.parse_args()    # Parse the args input
 
 app = Flask(__name__)
@@ -73,7 +73,7 @@ def favicon():
 @app.route('/')
 def main_template(name=None):
     if not name:
-        name = args.default_page
+        name = args.default_page[0]
     return make_response(os.path.join(app.root_path, 'templates', name).read())
 
 if __name__ == '__main__':
